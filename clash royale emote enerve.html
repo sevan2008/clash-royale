@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- Méta-informations -->
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutoriel emote clash royale</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="unnamed.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- En-tête -->
+    <header>
+        <!-- Titre -->
+        <h1>Clash royal emotes tuto</h1>
+        <!-- Menu de navigation -->
+        <nav>
+            <!-- Boutons pour les différentes sections -->
+            <p>vous pouvez aussi retrouver d'autres tutos:</p>
+            <button id="btn1">menu</button>
+            <button id="btn2">emote roi pleure</button>
+            <button id="btn3">emote roi pouce levés</button>
+            <button id="btn4">emote roi hihihiha</button>
+        </nav>
+    </header>
+    <!-- Contenu principal -->
+    <main>
+        <!-- Titre de la section -->
+        <h2> Emote 3 : le roi énervé</h2>
+        <!-- Description de l'émote énervée -->
+        <p>voici comment faire le 'huu' du roi qui est enervé:</p>
+        <!-- Vidéo d'exemple -->
+        <video width="1500" height="360" controls>
+            <source src="clash royale angry king emote sound.mp4" type="video/mp4">
+        </video>
+        <!-- Étapes pour maîtriser l'émote -->
+        <p>voici les étapes pour que vous puissiez maîtriser cette emote: <button id="toggleList" onclick="déroulerliste()">↲</button></p>
+        <ul class="hidden" id="etapesList">
+            <!-- Listes des étapes déroulables -->
+            <li>entrainez vous a retenir votre respiration pour devenir tout rouge</li>
+            <li>prononcez le 'huuu'</li>
+            <li>assemblez les deux ensembles</li>
+        </ul>
+        <!-- Enregistrement et lecture audio -->
+        <p>teste ton emote et compare toi au modèle! : </p>
+        <button id="startRecording">Commencer l'enregistrement</button>
+        <button id="stopRecording" disabled>Arrêter l'enregistrement</button>
+        <div id="audioPlayback" style="display: none;">
+            <!-- Lecture de l'enregistrement audio -->
+            <h2>Votre enregistrement :</h2>
+            <audio controls id="audioPlayer"></audio>
+            <a id="downloadLink" download="enregistrement_audio.wav">Télécharger l'enregistrement</a>
+        </div>
+    </main>
+    <!-- Pied de page -->
+    <footer>
+        <p>Sevan Ubeda</p>
+    <footer>
+    <!-- Script JavaScript pour la gestion des actions -->
+    <script>
+        // Fonction pour dérouler ou refermer la liste des étapes
+        function déroulerliste(){
+            var etapesList = document.getElementById("etapesList");
+            etapesList.classList.toggle("hidden");
+        }
+        // Redirection vers différentes sections
+        function ouvrirPage1() {
+            window.location.href = "index.html";
+        }
+        function ouvrirPage2() {
+            window.location.href = "clash royal emote pleure.html";
+        }
+        function ouvrirPage3() {
+            window.location.href = "roi pouce leve.html";
+        }
+        function ouvrirPage4() {
+            window.location.href = "clash royale roi hihihiha.html";
+        }
+
+        // Initialisation pour l'enregistrement audio
+        let mediaRecorder;
+        let audioChunks = [];
+
+        // Récupération de l'accès au microphone et gestion de l'enregistrement
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(function(stream) {
+                // Initialisation du MediaRecorder avec le flux audio
+                mediaRecorder = new MediaRecorder(stream);
+
+                // Ajout des données audio à un tableau lors de l'enregistrement
+                mediaRecorder.ondataavailable = function(e) {
+                    audioChunks.push(e.data);
+                };
+
+                // Arrêt de l'enregistrement et traitement des données
+                mediaRecorder.onstop = function() {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+
+                    const audioPlayer = document.getElementById('audioPlayer');
+                    const downloadLink = document.getElementById('downloadLink');
+
+                    audioPlayer.src = audioUrl;
+                    downloadLink.href = audioUrl;
+
+                    document.getElementById('audioPlayback').style.display = 'block';
+                };
+
+                // Début de l'enregistrement au clic
+                document.getElementById('startRecording').addEventListener('click', function() {
+                    audioChunks = [];
+                    mediaRecorder.start();
+                    document.getElementById('startRecording').disabled = true;
+                    document.getElementById('stopRecording').disabled = false;
+                });
+
+                // Arrêt de l'enregistrement au clic
+                document.getElementById('stopRecording').addEventListener('click', function() {
+                    mediaRecorder.stop();
+                    document.getElementById('startRecording').disabled = false;
+                    document.getElementById('stopRecording').disabled = true;
+                });
+            })
+            .catch(function(err) {
+                // Gestion de l'erreur si l'accès au microphone est refusé
+                console.error('Permission to access microphone was denied:', err);
+            });
+        
+        // Ajout des événements aux boutons pour les différentes sections
+        document.getElementById("btn1").addEventListener("click", ouvrirPage1);
+        document.getElementById("btn2").addEventListener("click", ouvrirPage2);
+        document.getElementById("btn3").addEventListener("click", ouvrirPage3);
+        document.getElementById("btn4").addEventListener("click", ouvrirPage4);
+    </script>
+</body>
+</html>

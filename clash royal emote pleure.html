@@ -1,0 +1,147 @@
+<!-- Début du document HTML -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- En-tête du document -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="index.css">
+    <!-- Liaisons vers les polices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="unnamed.ico" type="image/x-icon">
+    <!-- Titre de la page -->
+    <title>Tutoriel emote clash royale</title>
+</head>
+<body>   
+    <!-- En-tête -->
+    <header>
+        <!-- Titre principal -->
+        <h1>Clash royal emotes tuto</h1>
+        <!-- Menu de navigation -->
+        <nav>
+            <!-- Boutons de navigation -->
+            <p>vous pouvez aussi retrouver d'autres tutos:</p>
+            <button id="btn1">menu</button>
+            <button id="btn2">emote roi énervé</button>
+            <button id="btn3">emote roi pouce levés</button>
+            <button id="btn4">emote roi hihihiha</button>
+        </nav>
+    </header>
+    <!-- Contenu principal -->
+    <main>
+        <!-- Titre de la section -->
+        <h2> Emote 2 : le roi qui pleure</h2>
+        <!-- Description de l'émote de pleurs -->
+        <p>voici comment faire le 'hihohuye' du roi qui pleure:</p>
+        <!-- Vidéo d'exemple -->
+        <video width="1500" height="360" controls>
+            <source src="Clash Royale King Cry Emote Sound Effect.mp4" type="video/mp4">
+        </video>
+        <!-- Étapes pour maîtriser l'émote -->
+        <p>voici les étapes pour que vous puissiez maîtriser cette emote: <button id="toggleList" onclick="déroulerliste()">↲</button></p>
+        <ul class="hidden" id="etapesList">
+            <!-- Liste détaillée des étapes -->
+            <li>entrainez vous a pleurer sur commande</li>
+            <li>prononcez le 'hi'</li>
+            <li>prononcez maintenant le 'ho'</li>
+            <li>assemblez les deux ensembles</li>
+            <li>prononcez maintenant le 'huye'</li>
+            <li>rajoutez le 'huye' aux autre tout en pleurant</li>
+        </ul>
+        <!-- Test de l'émote -->
+        <p>teste ton emote et compare toi au modèle! : </p>
+        <!-- Boutons pour l'enregistrement audio -->
+        <button id="startRecording">Commencer l'enregistrement</button>
+        <button id="stopRecording" disabled>Arrêter l'enregistrement</button>
+        <!-- Affichage de l'enregistrement audio -->
+        <div id="audioPlayback" style="display: none;">
+            <!-- Lecture de l'enregistrement -->
+            <h2>Votre enregistrement :</h2>
+            <audio controls id="audioPlayer"></audio>
+            <!-- Téléchargement de l'enregistrement -->
+            <a id="downloadLink" download="enregistrement_audio.wav">Télécharger l'enregistrement</a>
+        </div>
+    </main>
+    <!-- Pied de page -->
+    <footer>
+        <p>Sevan Ubeda</p>
+    <footer>
+    <!-- Script JavaScript -->
+    <script>
+        // Fonction pour dérouler ou refermer la liste des étapes
+        function déroulerliste(){
+            var etapesList = document.getElementById("etapesList");
+            etapesList.classList.toggle("hidden");
+        }
+        // Fonctions pour ouvrir différentes pages
+        function ouvrirPage1() {
+            window.location.href = "index.html";
+        }
+        function ouvrirPage2() {
+            window.location.href = "clash royale emote enerve.html";
+        }
+        function ouvrirPage3() {
+            window.location.href = "roi pouce leve.html";
+        }
+        function ouvrirPage4() {
+            window.location.href = "clash royale roi hihihiha.html";
+        }
+
+        // Initialisation de l'enregistrement audio
+        let mediaRecorder;
+        let audioChunks = [];
+
+        // Récupération de l'accès au microphone et gestion de l'enregistrement
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(function(stream) {
+                // Configuration du MediaRecorder avec le flux audio
+                mediaRecorder = new MediaRecorder(stream);
+
+                // Ajout des données audio à un tableau lors de l'enregistrement
+                mediaRecorder.ondataavailable = function(e) {
+                    audioChunks.push(e.data);
+                };
+
+                // Traitement des données lors de l'arrêt de l'enregistrement
+                mediaRecorder.onstop = function() {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+
+                    const audioPlayer = document.getElementById('audioPlayer');
+                    const downloadLink = document.getElementById('downloadLink');
+
+                    audioPlayer.src = audioUrl;
+                    downloadLink.href = audioUrl;
+
+                    document.getElementById('audioPlayback').style.display = 'block';
+                };
+
+                // Démarrage de l'enregistrement audio
+                document.getElementById('startRecording').addEventListener('click', function() {
+                    audioChunks = [];
+                    mediaRecorder.start();
+                    document.getElementById('startRecording').disabled = true;
+                    document.getElementById('stopRecording').disabled = false;
+                });
+
+                // Arrêt de l'enregistrement audio
+                document.getElementById('stopRecording').addEventListener('click', function() {
+                    mediaRecorder.stop();
+                    document.getElementById('startRecording').disabled = false;
+                    document.getElementById('stopRecording').disabled = true;
+                });
+            })
+            .catch(function(err) {
+                // Gestion de l'erreur si l'accès au microphone est refusé
+                console.error('Permission to access microphone was denied:', err);
+            });
+        
+        // Ajout des événements aux boutons pour les différentes pages
+        document.getElementById("btn1").addEventListener("click", ouvrirPage1);
+        document.getElementById("btn2").addEventListener("click", ouvrirPage2);
+        document.getElementById("btn3").addEventListener("click", ouvrirPage3);
+        document.getElementById("btn4").addEventListener("click", ouvrirPage4);
+    </script>
+</body>
+</html>

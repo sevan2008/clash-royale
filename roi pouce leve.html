@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- Métadonnées de la page -->
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutoriel emote clash royale</title>
+    <link rel="shortcut icon" href="unnamed.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- En-tête de la page -->
+    <header>
+        <!-- Titre principal -->
+        <h1>Clash royal emotes tuto</h1>
+        <!-- Navigation -->
+        <nav>
+          <!-- Instruction pour accéder à d'autres tutoriels -->
+          <p>vous pouvez aussi retrouver d'autres tutos:</p>
+          <!-- Boutons de navigation -->
+          <button id="btn1">menu</button>
+          <button id="btn2">emote roi énervé</button>
+          <button id="btn3">emote roi pleure</button>
+          <button id="btn4">emote roi hihihiha</button>
+        </nav>
+    </header>
+    <!-- Contenu principal -->
+    <main>   
+        <!-- Description de l'emote -->
+        <h2> Emote 1 : le roi qui lève les pouces</h2>
+        <p>voici comment faire le 'haha' du roi qui lève les pouces:</p>
+        <!-- Image illustrative -->
+        <img src="pouce leve.jpg" alt="roi qui a un pouce levé" width="400px">
+        <!-- Lecteur audio pour les instructions -->
+        <audio  controls="controls" contr>
+            <source src="Pouce-leve(1).mp3">
+            <source src="Pouce-levé(1).ogg">
+        </audio>
+        <!-- Étapes pour reproduire l'emote -->
+        <p>voici les étapes pour que vous puissiez maîtriser cette emote: <button id="toggleList" onclick="déroulerliste()">↲</button></p>
+        <ul class="hidden" id="etapesList">
+            <!-- Listes des étapes -->
+            <li>entraînez-vous à lever les pouces au niveau du torse</li>
+            <li>commencez par prononcer le premier "ha"</li>
+            <li>prononcez maintenant le second "ha"</li>
+            <li>assemblez les deux ensembles</li>
+            <li>rajoutez les pouces</li>
+        </ul>
+        <!-- Enregistrement audio -->
+        <p>teste ton emote et compare-toi au modèle! : </p>
+        <button id="startRecording">Commencer l'enregistrement</button>
+        <button id="stopRecording" disabled>Arrêter l'enregistrement</button>
+        <div id="audioPlayback" style="display: none;">
+          <h2>Votre enregistrement :</h2>
+          <audio controls id="audioPlayer"></audio>
+          <a id="downloadLink" download="enregistrement_audio.wav">Télécharger l'enregistrement</a>
+        </div>
+    </main> 
+    <!-- Pied de page -->
+    <footer>
+       <p>Sevan Ubeda</p>
+    </footer>
+    <!-- Script pour la gestion des pages et l'enregistrement audio -->
+    <script>
+        // Fonction pour dérouler la liste des étapes
+        function déroulerliste(){
+            var etapesList = document.getElementById("etapesList");
+            etapesList.classList.toggle("hidden");
+        }
+        
+        // Fonctions de redirection vers les différentes pages
+        function ouvrirPage1() {
+          window.location.href = "index.html";
+        }
+        function ouvrirPage2() {
+          window.location.href = "clash royale emote enerve.html";
+        }
+        function ouvrirPage3() {
+          window.location.href = "clash royal emote pleure.html";
+        }
+        function ouvrirPage4() {
+          window.location.href = "clash royale roi hihihiha.html";
+        }
+
+        // Gestion de l'enregistrement audio
+        let mediaRecorder;
+        let audioChunks = [];
+
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(function(stream) {
+                mediaRecorder = new MediaRecorder(stream);
+
+                mediaRecorder.ondataavailable = function(e) {
+                    audioChunks.push(e.data);
+                };
+
+                mediaRecorder.onstop = function() {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+
+                    const audioPlayer = document.getElementById('audioPlayer');
+                    const downloadLink = document.getElementById('downloadLink');
+
+                    audioPlayer.src = audioUrl;
+                    downloadLink.href = audioUrl;
+
+                    document.getElementById('audioPlayback').style.display = 'block';
+                };
+
+                document.getElementById('startRecording').addEventListener('click', function() {
+                    audioChunks = [];
+                    mediaRecorder.start();
+                    document.getElementById('startRecording').disabled = true;
+                    document.getElementById('stopRecording').disabled = false;
+                });
+
+                document.getElementById('stopRecording').addEventListener('click', function() {
+                    mediaRecorder.stop();
+                    document.getElementById('startRecording').disabled = false;
+                    document.getElementById('stopRecording').disabled = true;
+                });
+            })
+            .catch(function(err) {
+                console.error('Permission to access microphone was denied:', err);
+            });
+           
+            // Ajout des événements pour les boutons de navigation
+            document.getElementById("btn1").addEventListener("click", ouvrirPage1);
+            document.getElementById("btn2").addEventListener("click", ouvrirPage2);
+            document.getElementById("btn3").addEventListener("click", ouvrirPage3);
+            document.getElementById("btn4").addEventListener("click", ouvrirPage4);
+    </script>
+</body>
+</html>
